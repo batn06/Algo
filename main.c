@@ -11,6 +11,7 @@
 void randomValueGeneration(int rows, int cols, int matrix[rows][cols]);
 void printMatrix(int rows, int cols, int matrix[rows][cols]);
 void multiplyMatrix(int arr1[ROWS_A][COLS_A], int arr2[ROWS_B][COLS_B], int result[ROWS_A][COLS_B]);
+void transposeMatrix(int rows, int cols, int matrix[rows][cols], int transposed[cols][rows]);
 
 int main() {
     srand(time(NULL)); // Rastgele sayı üretimi için seed ayarlama
@@ -18,6 +19,8 @@ int main() {
     int A[ROWS_A][COLS_A]; // 2x3 boyutunda A matrisi
     int B[ROWS_B][COLS_B]; // 3x2 boyutunda B matrisi
     int result[ROWS_A][COLS_B]; // 2x2 boyutunda sonuç matrisi
+    int transposedA[COLS_A][ROWS_A]; // A matrisinin transpozu
+    int transposedB[COLS_B][ROWS_B]; // B matrisinin transpozu
 
     // A ve B matrislerini rastgele değerlerle doldur
     randomValueGeneration(ROWS_A, COLS_A, A);
@@ -30,14 +33,23 @@ int main() {
     printf("\nMatrix B (3x2):\n");
     printMatrix(ROWS_B, COLS_B, B);
 
-    //Dizi boyutları eşit olmadığı için bu iki dizi arasında toplama işlemi yapılamaz!
-
     // Matrislerin çarpımını hesapla
     multiplyMatrix(A, B, result);
 
     // Sonuç matrisini yazdır
     printf("\nResult Matrix (Product of A and B):\n");
     printMatrix(ROWS_A, COLS_B, result);
+
+    // A ve B matrislerinin transpozunu hesapla
+    transposeMatrix(ROWS_A, COLS_A, A, transposedA);
+    transposeMatrix(ROWS_B, COLS_B, B, transposedB);
+
+    // Transpoze matrisleri yazdır
+    printf("\nTransposed Matrix A (3x2):\n");
+    printMatrix(COLS_A, ROWS_A, transposedA);
+
+    printf("\nTransposed Matrix B (2x3):\n");
+    printMatrix(COLS_B, ROWS_B, transposedB);
 
     return 0;
 }
@@ -69,6 +81,15 @@ void multiplyMatrix(int arr1[ROWS_A][COLS_A], int arr2[ROWS_B][COLS_B], int resu
             for (int k = 0; k < COLS_A; k++) { // COLS_A, arr1'in sütun sayısı ve arr2'nin satır sayısı
                 result[i][j] += arr1[i][k] * arr2[k][j];
             }
+        }
+    }
+}
+
+// Matrisin transpozunu hesaplayan fonksiyon
+void transposeMatrix(int rows, int cols, int matrix[rows][cols], int transposed[cols][rows]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            transposed[j][i] = matrix[i][j]; // Transpoz işlemi
         }
     }
 }
